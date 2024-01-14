@@ -38,13 +38,22 @@ class ProductCardItem extends StatelessWidget {
                   const Text(
                     'Nike shoe 120h 2024 Edition',
                     maxLines: 1,
-                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Colors.black54, overflow: TextOverflow.ellipsis),
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black54,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                   Row(
                     children: [
                       const Text(
                         '\$120',
-                        style: TextStyle(fontSize: 12, color: AppColors.primaryColor, fontWeight: FontWeight.w600),
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: AppColors.primaryColor,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                       const SizedBox(
                         width: 8,
@@ -59,7 +68,11 @@ class ProductCardItem extends StatelessWidget {
                           ),
                           Text(
                             '4.4',
-                            style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.black45),
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black45,
+                            ),
                           ),
                         ],
                       ),
@@ -68,7 +81,9 @@ class ProductCardItem extends StatelessWidget {
                       ),
                       Card(
                         color: AppColors.primaryColor,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4),
+                        ),
                         child: const Padding(
                           padding: EdgeInsets.all(2.0),
                           child: Icon(

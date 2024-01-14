@@ -21,7 +21,6 @@ class _WishListScreenState extends State<WishListScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.white,
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios),
             onPressed: () {
@@ -30,14 +29,14 @@ class _WishListScreenState extends State<WishListScreen> {
           ),
           title: const Text(
             'Wishlist',
-            style: TextStyle(fontSize: 18),
           ),
-          elevation: 3,
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: GridView.builder(
-            itemCount: 100,
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            physics: const BouncingScrollPhysics(),
+            itemCount: 25,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,
               childAspectRatio: 0.90,

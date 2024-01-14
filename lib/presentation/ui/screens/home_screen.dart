@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ecommerce_getx/presentation/ui/screens/product_list_screen.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/main_bottom_nav_controller.dart';
@@ -46,7 +47,9 @@ class _HomeScreenState extends State<HomeScreen> {
               categoryList,
               SectionTitle(
                 title: 'Popular',
-                onTapSeeAll: () {},
+                onTapSeeAll: () {
+                  Get.to(const ProductListScreen());
+                },
               ),
               productList,
               const SizedBox(
@@ -151,6 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
           onTap: () {},
           iconData: Icons.notifications_active_outlined,
         ),
+        const SizedBox(width: 15),
       ],
     );
   }

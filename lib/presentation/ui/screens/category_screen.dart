@@ -21,7 +21,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.white,
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios),
             onPressed: () {
@@ -30,14 +29,14 @@ class _CategoryScreenState extends State<CategoryScreen> {
           ),
           title: const Text(
             'Category',
-            style: TextStyle(fontSize: 18),
           ),
-          elevation: 3,
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: GridView.builder(
-            itemCount: 100,
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            physics: const BouncingScrollPhysics(),
+            itemCount: 25,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 4,
               childAspectRatio: 0.95,

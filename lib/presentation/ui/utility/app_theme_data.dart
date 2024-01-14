@@ -4,6 +4,7 @@ import 'app_colors.dart';
 
 class AppThemeData {
   static ThemeData lightThemeData = ThemeData(
+    useMaterial3: false,
     progressIndicatorTheme: const ProgressIndicatorThemeData(
       color: AppColors.primaryColor,
     ),
@@ -63,6 +64,12 @@ class AppThemeData {
       style: TextButton.styleFrom(
         foregroundColor: AppColors.primaryColor,
       ),
+    ),
+    appBarTheme: const AppBarTheme(
+      backgroundColor: Colors.white,
+      titleTextStyle: TextStyle(fontSize: 18, color: Colors.black),
+      foregroundColor: Colors.black,
+      elevation: 0.5,
     ),
   );
 }

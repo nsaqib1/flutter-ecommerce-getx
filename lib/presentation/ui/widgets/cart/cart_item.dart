@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../utility/app_colors.dart';
 import '../../utility/assets_path.dart';
-import 'item_counter.dart';
+import '../item_counter.dart';
 
 class CartItem extends StatelessWidget {
   const CartItem({

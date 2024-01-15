@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../utility/app_colors.dart';
+import '../utility/app_colors.dart';
 
 class ItemCounter extends StatefulWidget {
   const ItemCounter({
@@ -69,7 +69,6 @@ class _ItemCounterState extends State<ItemCounter> {
             ),
           ),
         ),
-        const SizedBox(width: 10),
       ],
     );
   }

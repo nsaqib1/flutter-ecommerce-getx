@@ -17,7 +17,7 @@ class CheckOutCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.primaryColor.withOpacity(0.15),
         borderRadius: const BorderRadius.vertical(
-          top: Radius.circular(20),
+          top: Radius.circular(30),
         ),
       ),
       child: Row(

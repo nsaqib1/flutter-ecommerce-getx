@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_ecommerce_getx/presentation/controllers/auth/otp_timer_countdown_controller.dart';
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import '../../../controllers/auth/verify_otp_controller.dart';
+import '../../../controllers/otp_timer_countdown_controller.dart';
+import '../../../controllers/verify_otp_controller.dart';
 import '../../utility/app_colors.dart';
 import '../../widgets/app_logo.dart';
 import '../main_bottom_nav_screen.dart';

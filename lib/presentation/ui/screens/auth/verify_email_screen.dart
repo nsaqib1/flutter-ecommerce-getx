@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../../controllers/auth/send_email_otp_controller.dart';
+import '../../../controllers/send_email_otp_controller.dart';
 import '../../widgets/app_logo.dart';
 import 'verify_otp_screen.dart';
 

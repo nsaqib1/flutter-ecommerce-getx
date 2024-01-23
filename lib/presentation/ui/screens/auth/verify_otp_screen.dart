@@ -102,7 +102,7 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
                               final bool response = await verifyOtpController.verifyOTP(widget.email, _otpController.text);
                               if (response) {
                                 if (verifyOtpController.shouldNavigateCompleteProfile) {
-                                  Get.to(() => const CompleteProfileScreen());
+                                  Get.to(() => CompleteProfileScreen(token: verifyOtpController.token));
                                 } else {
                                   Get.offAll(() => const MainBottomNavScreen());
                                 }

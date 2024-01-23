@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ecommerce_getx/presentation/controllers/auth_controller.dart';
+import 'package:flutter_ecommerce_getx/presentation/ui/screens/auth/verify_email_screen.dart';
 import 'package:flutter_ecommerce_getx/presentation/ui/screens/product_list_screen.dart';
 import 'package:get/get.dart';
 
@@ -137,7 +139,10 @@ class _HomeScreenState extends State<HomeScreen> {
       title: Image.asset(AssetsPath.logoNav),
       actions: [
         CircleIconButton(
-          onTap: () {},
+          onTap: () async {
+            await Get.find<AuthController>().clearAuthData();
+            Get.offAll(const VerifyEmailScreen());
+          },
           iconData: Icons.person,
         ),
         const SizedBox(

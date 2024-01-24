@@ -1,3 +1,4 @@
+import 'package:flutter_ecommerce_getx/data/models/create_profile_params.dart';
 import 'package:flutter_ecommerce_getx/presentation/controllers/auth_controller.dart';
 import 'package:get/get.dart';
 
@@ -18,27 +19,14 @@ class CompleteProfileController extends GetxController {
 
   ProfileModel get profile => _profile;
 
-  Future<bool> createProfile(
-    String token, {
-    required String firstName,
-    required String lastName,
-    required String mobile,
-    required String city,
-    required String shippingAddress,
-  }) async {
+  Future<bool> createProfile(String token, CreateProfileParams params) async {
     _inProgress = true;
     update();
-    final Map<String, dynamic> inputParams = {
-      "firstName": firstName,
-      "lastName": lastName,
-      "mobile": mobile,
-      "city": city,
-      "shippingAddress": shippingAddress,
-    };
+
     final response = await NetworkCaller().postRequest(
       Urls.createProfile,
       token: token,
-      body: inputParams,
+      body: params.toJson(),
     );
     _inProgress = false;
 

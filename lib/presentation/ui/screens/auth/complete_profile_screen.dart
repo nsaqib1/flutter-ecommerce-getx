@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ecommerce_getx/data/models/create_profile_params.dart';
 import 'package:flutter_ecommerce_getx/presentation/controllers/complete_profile_controller.dart';
 import 'package:get/get.dart';
 import '../../widgets/app_logo.dart';
@@ -139,42 +140,46 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                 ),
                 SizedBox(
                   width: double.infinity,
-                  child: GetBuilder<CompleteProfileController>(builder: (controller) {
-                    return Visibility(
-                      visible: controller.inProgress == false,
-                      replacement: const Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            final response = await controller.createProfile(
-                              widget.token,
-                              firstName: _firstNameController.text.trim(),
-                              lastName: _lastNameController.text.trim(),
-                              mobile: _mobileController.text.trim(),
-                              city: _cityController.text.trim(),
-                              shippingAddress: _shippingAddressController.text.trim(),
-                            );
-
-                            if (response) {
-                              Get.offAll(const MainBottomNavScreen());
-                            } else {
-                              Get.showSnackbar(
-                                GetSnackBar(
-                                  title: 'Complete profile failed',
-                                  message: controller.errorMessage,
-                                  duration: const Duration(seconds: 2),
-                                  isDismissible: true,
+                  child: GetBuilder<CompleteProfileController>(
+                    builder: (controller) {
+                      return Visibility(
+                        visible: controller.inProgress == false,
+                        replacement: const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            if (_formKey.currentState!.validate()) {
+                              final response = await controller.createProfile(
+                                widget.token,
+                                CreateProfileParams(
+                                  firstName: _firstNameController.text.trim(),
+                                  lastName: _lastNameController.text.trim(),
+                                  mobile: _mobileController.text.trim(),
+                                  city: _cityController.text.trim(),
+                                  shippingAddress: _shippingAddressController.text.trim(),
                                 ),
                               );
+
+                              if (response) {
+                                Get.offAll(const MainBottomNavScreen());
+                              } else {
+                                Get.showSnackbar(
+                                  GetSnackBar(
+                                    title: 'Complete profile failed',
+                                    message: controller.errorMessage,
+                                    duration: const Duration(seconds: 2),
+                                    isDismissible: true,
+                                  ),
+                                );
+                              }
                             }
-                          }
-                        },
-                        child: const Text('Complete'),
-                      ),
-                    );
-                  }),
+                          },
+                          child: const Text('Complete'),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ],
             ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ecommerce_getx/data/models/product_model.dart';
 
 import '../widgets/product_card_item.dart';
 
@@ -31,7 +32,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
             crossAxisSpacing: 4,
           ),
           itemBuilder: (context, index) {
-            return const FittedBox(child: ProductCardItem());
+            return FittedBox(child: ProductCardItem(product: ProductModel()));
           },
         ),
       ),

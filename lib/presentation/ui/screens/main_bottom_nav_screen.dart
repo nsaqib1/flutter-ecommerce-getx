@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_getx/presentation/controllers/category_controller.dart';
 import 'package:flutter_ecommerce_getx/presentation/controllers/home_banner_controller.dart';
+import 'package:flutter_ecommerce_getx/presentation/controllers/new_product_controller.dart';
+import 'package:flutter_ecommerce_getx/presentation/controllers/popular_product_controller.dart';
+import 'package:flutter_ecommerce_getx/presentation/controllers/special_product_controller.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/main_bottom_nav_controller.dart';
@@ -30,6 +33,9 @@ class _MainBottomNavScreenState extends State<MainBottomNavScreen> {
     super.initState();
     Get.find<HomeBannerController>().getBannerList();
     Get.find<CategoryController>().getCategoryList();
+    Get.find<PopularProductController>().getPopularListModel();
+    Get.find<SpecialProductController>().getSpecialProductList();
+    Get.find<NewProductController>().getNewProductList();
   }
 
   @override

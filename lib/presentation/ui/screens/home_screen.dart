@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ecommerce_getx/data/models/product_model.dart';
 import 'package:flutter_ecommerce_getx/presentation/controllers/auth_controller.dart';
 import 'package:flutter_ecommerce_getx/presentation/controllers/home_banner_controller.dart';
+import 'package:flutter_ecommerce_getx/presentation/controllers/new_product_controller.dart';
+import 'package:flutter_ecommerce_getx/presentation/controllers/popular_product_controller.dart';
+import 'package:flutter_ecommerce_getx/presentation/controllers/special_product_controller.dart';
 import 'package:flutter_ecommerce_getx/presentation/ui/screens/auth/verify_email_screen.dart';
 import 'package:flutter_ecommerce_getx/presentation/ui/screens/product_list_screen.dart';
 import 'package:get/get.dart';
@@ -69,7 +73,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   Get.to(const ProductListScreen());
                 },
               ),
-              productList,
+              GetBuilder<PopularProductController>(
+                builder: (controller) {
+                  return productList(controller.productListModel.productList ?? [], controller.inProgress);
+                },
+              ),
               const SizedBox(
                 height: 8,
               ),
@@ -77,7 +85,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 title: 'Special',
                 onTapSeeAll: () {},
               ),
-              productList,
+              GetBuilder<SpecialProductController>(
+                builder: (controller) {
+                  return productList(controller.productListModel.productList ?? [], controller.inProgress);
+                },
+              ),
               const SizedBox(
                 height: 8,
               ),
@@ -85,7 +97,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 title: 'New',
                 onTapSeeAll: () {},
               ),
-              productList,
+              GetBuilder<NewProductController>(
+                builder: (controller) {
+                  return productList(controller.productListModel.productList ?? [], controller.inProgress);
+                },
+              ),
             ],
           ),
         ),
@@ -123,22 +139,28 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  SizedBox get productList {
+  SizedBox productList(List<ProductModel> productList, bool inProgress) {
     return SizedBox(
       height: 190,
-      child: ListView.separated(
-        itemCount: 10,
-        primary: false,
-        shrinkWrap: true,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) {
-          return const ProductCardItem();
-        },
-        separatorBuilder: (_, __) {
-          return const SizedBox(
-            width: 8,
-          );
-        },
+      child: Visibility(
+        visible: inProgress == false,
+        replacement: const Center(
+          child: CircularProgressIndicator(),
+        ),
+        child: ListView.separated(
+          itemCount: productList.length,
+          primary: false,
+          shrinkWrap: true,
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index) {
+            return ProductCardItem(product: productList[index]);
+          },
+          separatorBuilder: (_, __) {
+            return const SizedBox(
+              width: 8,
+            );
+          },
+        ),
       ),
     );
   }

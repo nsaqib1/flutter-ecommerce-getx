@@ -1,5 +1,7 @@
 import 'package:flutter_ecommerce_getx/presentation/controllers/auth_controller.dart';
+import 'package:flutter_ecommerce_getx/presentation/controllers/category_controller.dart';
 import 'package:flutter_ecommerce_getx/presentation/controllers/complete_profile_controller.dart';
+import 'package:flutter_ecommerce_getx/presentation/controllers/home_banner_controller.dart';
 import 'package:get/get.dart';
 import 'presentation/controllers/main_bottom_nav_controller.dart';
 import 'presentation/controllers/otp_timer_countdown_controller.dart';
@@ -17,5 +19,7 @@ class ControllerBinder extends Bindings {
     Get.put(ReadProfileDataController());
     Get.put(VerifyOTPController());
     Get.put(CompleteProfileController());
+    Get.put(HomeBannerController());
+    Get.put(CategoryController());
   }
 }

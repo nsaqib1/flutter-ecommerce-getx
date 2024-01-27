@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ecommerce_getx/data/models/banner_item_model.dart';
 
 import '../../utility/app_colors.dart';
 
@@ -7,9 +8,11 @@ class BannerCarousel extends StatefulWidget {
   const BannerCarousel({
     super.key,
     this.height,
+    required this.bannerList,
   });
 
   final double? height;
+  final List<BannerItemModel> bannerList;
 
   @override
   State<BannerCarousel> createState() => _BannerCarouselState();
@@ -32,46 +35,85 @@ class _BannerCarouselState extends State<BannerCarousel> {
             // enableInfiniteScroll: false,
             // autoPlay: true,
           ),
-          items: [1, 2, 3, 4, 5].map((i) {
-            return Builder(
-              builder: (BuildContext context) {
-                return Container(
+          items: widget.bannerList.map(
+            (i) {
+              return Builder(
+                builder: (BuildContext context) {
+                  return Container(
                     width: MediaQuery.of(context).size.width,
                     margin: const EdgeInsets.symmetric(horizontal: 1.0),
-                    decoration: BoxDecoration(color: AppColors.primaryColor, borderRadius: BorderRadius.circular(8)),
-                    alignment: Alignment.center,
-                    child: Text(
-                      'text $i',
-                      style: const TextStyle(fontSize: 16.0),
-                    ));
-              },
-            );
-          }).toList(),
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: AppColors.primaryColor,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Image.network(i.image ?? ""),
+                        ),
+                        SizedBox(width: 10),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                i.title ?? "",
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              ElevatedButton(
+                                onPressed: () {},
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.white,
+                                  foregroundColor: AppColors.primaryColor,
+                                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                                  elevation: 0,
+                                ),
+                                child: Text("Buy Now"),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
+            },
+          ).toList(),
         ),
         const SizedBox(
           height: 6,
         ),
         ValueListenableBuilder(
-            valueListenable: _currentIndex,
-            builder: (context, index, _) {
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  for (int i = 0; i < 5; i++)
-                    Container(
-                      height: 12,
-                      width: 12,
-                      margin: const EdgeInsets.all(2),
-                      decoration: BoxDecoration(
-                          color: i == index ? AppColors.primaryColor : Colors.transparent,
-                          border: Border.all(
-                            color: i == index ? AppColors.primaryColor : Colors.grey.shade400,
-                          ),
-                          borderRadius: BorderRadius.circular(30)),
+          valueListenable: _currentIndex,
+          builder: (context, index, _) {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                for (int i = 0; i < widget.bannerList.length; i++)
+                  Container(
+                    height: 12,
+                    width: 12,
+                    margin: const EdgeInsets.all(2),
+                    decoration: BoxDecoration(
+                      color: i == index ? AppColors.primaryColor : Colors.transparent,
+                      border: Border.all(
+                        color: i == index ? AppColors.primaryColor : Colors.grey.shade400,
+                      ),
+                      borderRadius: BorderRadius.circular(30),
                     ),
-                ],
-              );
-            })
+                  ),
+              ],
+            );
+          },
+        )
       ],
     );
   }

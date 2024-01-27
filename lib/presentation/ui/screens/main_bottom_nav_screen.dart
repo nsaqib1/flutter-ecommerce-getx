@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ecommerce_getx/presentation/controllers/category_controller.dart';
+import 'package:flutter_ecommerce_getx/presentation/controllers/home_banner_controller.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/main_bottom_nav_controller.dart';
@@ -22,6 +24,13 @@ class _MainBottomNavScreenState extends State<MainBottomNavScreen> {
     CartsScreen(),
     WishListScreen(),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    Get.find<HomeBannerController>().getBannerList();
+    Get.find<CategoryController>().getCategoryList();
+  }
 
   @override
   Widget build(BuildContext context) {

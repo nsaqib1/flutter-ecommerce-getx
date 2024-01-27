@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_getx/presentation/controllers/auth_controller.dart';
+import 'package:flutter_ecommerce_getx/presentation/controllers/home_banner_controller.dart';
 import 'package:flutter_ecommerce_getx/presentation/ui/screens/auth/verify_email_screen.dart';
 import 'package:flutter_ecommerce_getx/presentation/ui/screens/product_list_screen.dart';
 import 'package:get/get.dart';
 
+import '../../../data/models/category_list_item.dart';
+import '../../controllers/category_controller.dart';
 import '../../controllers/main_bottom_nav_controller.dart';
 import '../utility/assets_path.dart';
 import '../widgets/category_item.dart';
@@ -36,7 +39,20 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(
                 height: 16,
               ),
-              const BannerCarousel(),
+              SizedBox(
+                height: 210,
+                child: GetBuilder<HomeBannerController>(
+                  builder: (controller) {
+                    return Visibility(
+                      visible: controller.inProgress == false,
+                      replacement: const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                      child: BannerCarousel(bannerList: controller.bannerListModel.bannerList ?? []),
+                    );
+                  },
+                ),
+              ),
               const SizedBox(
                 height: 16,
               ),
@@ -80,20 +96,30 @@ class _HomeScreenState extends State<HomeScreen> {
   SizedBox get categoryList {
     return SizedBox(
       height: 130,
-      child: ListView.separated(
-        itemCount: 10,
-        primary: false,
-        shrinkWrap: true,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) {
-          return const CategoryItem();
-        },
-        separatorBuilder: (_, __) {
-          return const SizedBox(
-            width: 8,
-          );
-        },
-      ),
+      child: GetBuilder<CategoryController>(builder: (categoryController) {
+        return Visibility(
+          visible: categoryController.inProgress == false,
+          replacement: const Center(
+            child: CircularProgressIndicator(),
+          ),
+          child: GridView.builder(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            physics: const BouncingScrollPhysics(),
+            itemCount: categoryController.categoryListModel.categoryList?.length ?? 0,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 4,
+              childAspectRatio: 0.85,
+            ),
+            itemBuilder: (context, index) {
+              return FittedBox(
+                child: CategoryItem(
+                  category: categoryController.categoryListModel.categoryList?[index] ?? CategoryListItem(),
+                ),
+              );
+            },
+          ),
+        );
+      }),
     );
   }
 

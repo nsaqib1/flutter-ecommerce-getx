@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ecommerce_getx/data/models/category_list_item.dart';
+import 'package:flutter_ecommerce_getx/presentation/controllers/category_controller.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/main_bottom_nav_controller.dart';
@@ -31,21 +33,37 @@ class _CategoryScreenState extends State<CategoryScreen> {
             'Category',
           ),
         ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: GridView.builder(
-            padding: const EdgeInsets.symmetric(vertical: 20),
-            physics: const BouncingScrollPhysics(),
-            itemCount: 25,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 4,
-              childAspectRatio: 0.95,
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 8,
-            ),
-            itemBuilder: (context, index) {
-              return const FittedBox(child: CategoryItem());
-            },
+        body: RefreshIndicator(
+          onRefresh: () async {
+            Get.find<CategoryController>().getCategoryList();
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: GetBuilder<CategoryController>(builder: (controller) {
+              return Visibility(
+                visible: controller.inProgress == false,
+                replacement: const Center(
+                  child: CircularProgressIndicator(),
+                ),
+                child: GridView.builder(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  itemCount: controller.categoryListModel.categoryList?.length ?? 0,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 4,
+                    childAspectRatio: 0.95,
+                    mainAxisSpacing: 12,
+                    crossAxisSpacing: 8,
+                  ),
+                  itemBuilder: (context, index) {
+                    return FittedBox(
+                      child: CategoryItem(
+                        category: controller.categoryListModel.categoryList?[index] ?? CategoryListItem(),
+                      ),
+                    );
+                  },
+                ),
+              );
+            }),
           ),
         ),
       ),

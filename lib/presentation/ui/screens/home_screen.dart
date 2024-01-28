@@ -83,7 +83,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               SectionTitle(
                 title: 'Special',
-                onTapSeeAll: () {},
+                onTapSeeAll: () {
+                  Get.to(const ProductListScreen());
+                },
               ),
               GetBuilder<SpecialProductController>(
                 builder: (controller) {
@@ -95,7 +97,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               SectionTitle(
                 title: 'New',
-                onTapSeeAll: () {},
+                onTapSeeAll: () {
+                  Get.to(const ProductListScreen());
+                },
               ),
               GetBuilder<NewProductController>(
                 builder: (controller) {

@@ -4,6 +4,7 @@ import 'package:flutter_ecommerce_getx/presentation/controllers/complete_profile
 import 'package:flutter_ecommerce_getx/presentation/controllers/home_banner_controller.dart';
 import 'package:flutter_ecommerce_getx/presentation/controllers/new_product_controller.dart';
 import 'package:flutter_ecommerce_getx/presentation/controllers/popular_product_controller.dart';
+import 'package:flutter_ecommerce_getx/presentation/controllers/product_controller.dart';
 import 'package:flutter_ecommerce_getx/presentation/controllers/special_product_controller.dart';
 import 'package:get/get.dart';
 import 'presentation/controllers/main_bottom_nav_controller.dart';
@@ -27,5 +28,6 @@ class ControllerBinder extends Bindings {
     Get.put(PopularProductController());
     Get.put(SpecialProductController());
     Get.put(NewProductController());
+    Get.put(ProductController());
   }
 }

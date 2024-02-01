@@ -1,16 +1,25 @@
 import 'package:flutter/material.dart';
 
-class ColorVariations extends StatefulWidget {
-  const ColorVariations({super.key, required this.colors});
+class ColorSelector extends StatefulWidget {
+  const ColorSelector({super.key, required this.colors, required this.onChange});
 
   final List<Color> colors;
+  final Function(Color) onChange;
 
   @override
-  State<ColorVariations> createState() => _ColorVariationsState();
+  State<ColorSelector> createState() => _ColorSelectorState();
 }
 
-class _ColorVariationsState extends State<ColorVariations> {
-  int _selectedColor = 0;
+class _ColorSelectorState extends State<ColorSelector> {
+  late Color _selectedColor;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedColor = widget.colors.first;
+    widget.onChange(_selectedColor);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -34,14 +43,14 @@ class _ColorVariationsState extends State<ColorVariations> {
               return InkWell(
                 borderRadius: BorderRadius.circular(15),
                 onTap: () {
-                  setState(() {
-                    _selectedColor = index;
-                  });
+                  widget.onChange(widget.colors[index]);
+                  _selectedColor = widget.colors[index];
+                  setState(() {});
                 },
                 child: CircleAvatar(
                   backgroundColor: widget.colors[index],
                   radius: 15,
-                  child: _selectedColor == index
+                  child: _selectedColor == widget.colors[index]
                       ? const Icon(
                           Icons.done,
                           color: Colors.white,

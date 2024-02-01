@@ -1,17 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_getx/presentation/ui/utility/app_colors.dart';
 
-class SizeVariations extends StatefulWidget {
-  const SizeVariations({super.key, required this.sizes});
+class SizeSelector extends StatefulWidget {
+  const SizeSelector({super.key, required this.sizes, required this.onChange});
 
   final List<String> sizes;
+  final Function(String) onChange;
 
   @override
-  State<SizeVariations> createState() => _SizeVariationsState();
+  State<SizeSelector> createState() => _SizeSelectorState();
 }
 
-class _SizeVariationsState extends State<SizeVariations> {
-  int _selectedSize = 0;
+class _SizeSelectorState extends State<SizeSelector> {
+  late String _selectedSize;
+  @override
+  void initState() {
+    super.initState();
+    _selectedSize = widget.sizes.first;
+    widget.onChange(_selectedSize);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -36,7 +44,9 @@ class _SizeVariationsState extends State<SizeVariations> {
                 borderRadius: BorderRadius.circular(15),
                 onTap: () {
                   setState(() {
-                    _selectedSize = index;
+                    _selectedSize = widget.sizes[index];
+                    widget.onChange(widget.sizes[index]);
+                    setState(() {});
                   });
                 },
                 child: Container(
@@ -45,17 +55,17 @@ class _SizeVariationsState extends State<SizeVariations> {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(
-                      color: _selectedSize == index ? AppColors.primaryColor : Colors.grey,
+                      color: _selectedSize == widget.sizes[index] ? AppColors.primaryColor : Colors.grey,
                       width: 1,
                     ),
-                    color: _selectedSize == index ? AppColors.primaryColor : Colors.transparent,
+                    color: _selectedSize == widget.sizes[index] ? AppColors.primaryColor : Colors.transparent,
                   ),
                   child: Center(
                     child: FittedBox(
                       child: Text(
                         widget.sizes[index],
                         style: TextStyle(
-                          color: _selectedSize == index ? Colors.white : Colors.grey,
+                          color: _selectedSize == widget.sizes[index] ? Colors.white : Colors.grey,
                         ),
                       ),
                     ),

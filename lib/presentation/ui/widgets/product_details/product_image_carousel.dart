@@ -7,9 +7,11 @@ class ProductImageCarousel extends StatefulWidget {
   const ProductImageCarousel({
     super.key,
     this.height,
+    required this.images,
   });
 
   final double? height;
+  final List<String> images;
 
   @override
   State<ProductImageCarousel> createState() => _ProductImageCarouselState();
@@ -31,17 +33,15 @@ class _ProductImageCarouselState extends State<ProductImageCarousel> {
             },
             viewportFraction: 1,
           ),
-          items: [1, 2, 3, 4, 5].map((i) {
+          items: widget.images.map((i) {
             return Builder(
               builder: (BuildContext context) {
                 return Container(
                   width: MediaQuery.of(context).size.width,
                   margin: const EdgeInsets.symmetric(horizontal: 1.0),
-                  decoration: const BoxDecoration(color: Colors.amber),
-                  alignment: Alignment.center,
-                  child: Text(
-                    'text $i',
-                    style: const TextStyle(fontSize: 16.0),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade300,
+                    image: DecorationImage(image: Image.network(i).image),
                   ),
                 );
               },
@@ -59,7 +59,7 @@ class _ProductImageCarouselState extends State<ProductImageCarousel> {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  for (int i = 0; i < 5; i++)
+                  for (int i = 0; i < widget.images.length; i++)
                     Container(
                       height: 13,
                       width: 13,

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import '../../data/services/network_caller.dart';
 import '../../data/utilities/urls.dart';
 
-class AddToCartController extends GetxController {
+class CartListController extends GetxController {
   bool _inProgress = false;
 
   String _errorMessage = '';
@@ -11,9 +11,6 @@ class AddToCartController extends GetxController {
   bool get inProgress => _inProgress;
 
   String get errorMessage => _errorMessage;
-
-  int _statusCode = 0;
-  int get statusCode => _statusCode;
 
   Future<bool> addToCart({
     required int productId,
@@ -34,7 +31,6 @@ class AddToCartController extends GetxController {
       body: inputParams,
       token: token,
     );
-    _statusCode = response.statusCode;
     if (response.isSuccess) {
       isSuccess = true;
     } else {

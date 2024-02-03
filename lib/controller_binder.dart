@@ -1,5 +1,6 @@
 import 'package:flutter_ecommerce_getx/presentation/controllers/add_to_cart_controller.dart';
 import 'package:flutter_ecommerce_getx/presentation/controllers/auth_controller.dart';
+import 'package:flutter_ecommerce_getx/presentation/controllers/cart_list_controller.dart';
 import 'package:flutter_ecommerce_getx/presentation/controllers/category_controller.dart';
 import 'package:flutter_ecommerce_getx/presentation/controllers/complete_profile_controller.dart';
 import 'package:flutter_ecommerce_getx/presentation/controllers/home_banner_controller.dart';
@@ -33,5 +34,6 @@ class ControllerBinder extends Bindings {
     Get.put(ProductController());
     Get.put(ProductDetailsController());
     Get.put(AddToCartController());
+    Get.put(CartListController());
   }
 }

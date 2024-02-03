@@ -46,30 +46,30 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           controller.productDetailsData.img4 ?? "",
         ];
 
-        return Visibility(
-          visible: controller.inProgress == false,
-          replacement: const Center(
+        if (controller.inProgress) {
+          return const Center(
             child: CircularProgressIndicator(),
-          ),
-          child: Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: Column(
-                    children: [
-                      ProductImageCarousel(images: images),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                        child: productDetailsBody(controller.productDetailsData),
-                      ),
-                    ],
-                  ),
+          );
+        }
+
+        return Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Column(
+                  children: [
+                    ProductImageCarousel(images: images),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                      child: productDetailsBody(controller.productDetailsData),
+                    ),
+                  ],
                 ),
               ),
-              productPriceCard(widget.productId),
-            ],
-          ),
+            ),
+            productPriceCard(widget.productId),
+          ],
         );
       }),
     );
@@ -82,7 +82,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                product.product!.title!,
+                product.product?.title ?? "",
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
@@ -93,7 +93,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ],
           ),
           const SizedBox(height: 10),
-          reviewSnippet(product.product!.star!),
+          reviewSnippet(product.product?.star ?? 0),
           ColorSelector(
             colors: product.color!.split(",").map((e) => ColorConverter.getColorFromHex(e)).toList(),
             onChange: (color) {
@@ -192,46 +192,60 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 ),
               ],
             ),
-            GetBuilder<AddToCartController>(builder: (controller) {
-              if (controller.inProgress) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              return ElevatedButton(
-                onPressed: () async {
-                  if (_selectedColor == null || _selectedSize == null) {
-                    Get.snackbar("Add to cart failed", "Please select size and color");
-                  } else if (await Get.find<AuthController>().isLoggedIn() == false) {
-                    Get.offAll(const VerifyEmailScreen());
-                  } else {
-                    final String token = Get.find<AuthController>().token!;
-                    final result = await controller.addToCart(
-                      productId: productId,
-                      color: _selectedColor!,
-                      size: _selectedSize!,
-                      token: token,
-                    );
+            GetBuilder<AddToCartController>(
+              builder: (addToCartController) {
+                return Visibility(
+                  visible: addToCartController.inProgress == false,
+                  replacement: const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      if (_selectedColor == null || _selectedSize == null) {
+                        Get.snackbar("Add to cart failed", "Please select size and color");
+                      } else if (await Get.find<AuthController>().isLoggedIn() == false) {
+                        Get.offAll(const VerifyEmailScreen());
+                      } else {
+                        final String token = Get.find<AuthController>().token!;
+                        final result = await addToCartController.addToCart(
+                          productId: productId,
+                          color: _selectedColor!,
+                          size: _selectedSize!,
+                          token: token,
+                        );
 
-                    if (result) {
-                      Get.snackbar(
-                        "Success",
-                        "Product added to cart!",
-                        duration: const Duration(seconds: 3),
-                        snackPosition: SnackPosition.BOTTOM,
-                      );
-                    } else {
-                      Get.snackbar("Add to cart failed!", controller.errorMessage);
-                    }
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  elevation: 0,
-                ),
-                child: const Text("Add To Cart"),
-              );
-            }),
+                        if (result) {
+                          Get.snackbar(
+                            "Success",
+                            "Product added to cart!",
+                            duration: const Duration(seconds: 3),
+                            backgroundColor: Colors.green,
+                            snackPosition: SnackPosition.BOTTOM,
+                          );
+                        } else {
+                          if (addToCartController.statusCode == 401) {
+                            Get.offAll(const VerifyEmailScreen());
+                          } else {
+                            Get.snackbar(
+                              "Add to cart failed!",
+                              addToCartController.errorMessage,
+                              duration: const Duration(seconds: 3),
+                              backgroundColor: Colors.red,
+                              snackPosition: SnackPosition.BOTTOM,
+                            );
+                          }
+                        }
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      elevation: 0,
+                    ),
+                    child: const Text("Add To Cart"),
+                  ),
+                );
+              },
+            ),
           ],
         ),
       );

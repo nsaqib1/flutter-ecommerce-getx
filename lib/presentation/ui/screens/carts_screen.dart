@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ecommerce_getx/presentation/controllers/auth_controller.dart';
+import 'package:flutter_ecommerce_getx/presentation/controllers/cart_list_controller.dart';
 import 'package:get/get.dart';
 import '../../controllers/main_bottom_nav_controller.dart';
 import '../widgets/cart/cart_item.dart';
@@ -12,6 +14,17 @@ class CartsScreen extends StatefulWidget {
 }
 
 class _CartsScreenState extends State<CartsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final token = Get.find<AuthController>().token;
+      Get.find<CartListController>().getCartList(token.toString());
+    });
+  }
+
+  Future<void> _getCartList() async {}
+
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -31,20 +44,28 @@ class _CartsScreenState extends State<CartsScreen> {
             'Cart',
           ),
         ),
-        body: Column(
-          children: [
-            Expanded(
-              child: ListView.separated(
-                itemCount: 8,
-                padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                physics: const BouncingScrollPhysics(),
-                itemBuilder: (context, index) => const CartItem(),
-                separatorBuilder: (_, __) => const SizedBox(height: 10),
-              ),
+        body: GetBuilder<CartListController>(builder: (cartListController) {
+          return Visibility(
+            visible: cartListController.inProgress == false,
+            replacement: const Center(
+              child: CircularProgressIndicator(),
             ),
-            const CheckOutCard(),
-          ],
-        ),
+            child: Column(
+              children: [
+                Expanded(
+                  child: ListView.separated(
+                    itemCount: cartListController.cartListModel.cartItemList?.length ?? 0,
+                    padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                    physics: const BouncingScrollPhysics(),
+                    itemBuilder: (context, index) => CartItem(cartItemModel: cartListController.cartListModel.cartItemList![index]),
+                    separatorBuilder: (_, __) => const SizedBox(height: 10),
+                  ),
+                ),
+                const CheckOutCard(),
+              ],
+            ),
+          );
+        }),
       ),
     );
   }

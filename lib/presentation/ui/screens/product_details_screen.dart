@@ -95,7 +95,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           const SizedBox(height: 10),
           reviewSnippet(product.product?.star ?? 0),
           ColorSelector(
-            colors: product.color!.split(",").map((e) => ColorConverter.getColorFromHex(e)).toList(),
+            colors: product.color!.split(",").map((e) => ColorConverter.getColorFromName(e)).toList(),
             onChange: (color) {
               _selectedColor = "#${color.toString().substring(10, 16)}";
             },
@@ -112,7 +112,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         ],
       );
 
-  Widget reviewSnippet(double star) => Row(
+  Widget reviewSnippet(int star) => Row(
         children: [
           const Icon(
             Icons.star,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ecommerce_getx/data/models/cart_item_model.dart';
 
 import '../../utility/app_colors.dart';
 import '../../utility/assets_path.dart';
@@ -7,7 +8,10 @@ import '../item_counter.dart';
 class CartItem extends StatelessWidget {
   const CartItem({
     super.key,
+    required this.cartItemModel,
   });
+
+  final CartItemModel cartItemModel;
 
   @override
   Widget build(BuildContext context) {
@@ -31,12 +35,12 @@ class CartItem extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Expanded(
+                    Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "New Year Special Shoe",
+                            cartItemModel.product?.title ?? "",
                             style: TextStyle(
                               fontSize: 16,
                               color: Colors.black87,

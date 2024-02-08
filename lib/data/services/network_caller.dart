@@ -1,7 +1,10 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:flutter_ecommerce_getx/presentation/controllers/auth_controller.dart';
+import 'package:flutter_ecommerce_getx/presentation/ui/screens/auth/verify_email_screen.dart';
 import 'package:http/http.dart';
 import '../models/response_data.dart';
+import 'package:get/get.dart' as getX;
 
 class NetworkCaller {
   Future<ResponseData> getRequest(String url, {String? token}) async {
@@ -33,6 +36,14 @@ class NetworkCaller {
           errorMessage: decodedResponse['data'] ?? 'Something went wrong',
         );
       }
+    } else if (response.statusCode == 401) {
+      getX.Get.find<AuthController>().clearAuthData();
+      getX.Get.offAll(const VerifyEmailScreen());
+      return ResponseData(
+        isSuccess: false,
+        statusCode: response.statusCode,
+        responseData: '',
+      );
     } else {
       return ResponseData(
         isSuccess: false,

@@ -1,5 +1,7 @@
+import 'package:flutter_ecommerce_getx/data/models/cart_item_model.dart';
 import 'package:get/get.dart';
 
+import '../../data/models/cart_list_model.dart';
 import '../../data/services/network_caller.dart';
 import '../../data/utilities/urls.dart';
 
@@ -8,30 +10,28 @@ class CartListController extends GetxController {
 
   String _errorMessage = '';
 
+  CartListModel _cartListModel = CartListModel();
+
   bool get inProgress => _inProgress;
 
   String get errorMessage => _errorMessage;
 
-  Future<bool> addToCart({
-    required int productId,
-    required String color,
-    required String size,
-    required String token,
-  }) async {
+  CartListModel get cartListModel => _cartListModel;
+
+  final RxDouble _totalPrice = 0.0.obs;
+
+  RxDouble get totalPrice => _totalPrice;
+
+  Future<bool> getCartList(String token) async {
     bool isSuccess = false;
     _inProgress = true;
     update();
-    Map<String, dynamic> inputParams = {
-      "product_id": productId,
-      "color": color,
-      "size": size,
-    };
-    final response = await NetworkCaller().postRequest(
-      Urls.addToCart,
-      body: inputParams,
+    final response = await NetworkCaller().getRequest(
+      Urls.cartList,
       token: token,
     );
     if (response.isSuccess) {
+      _cartListModel = CartListModel.fromJson(response.responseData);
       isSuccess = true;
     } else {
       _errorMessage = response.errorMessage;
@@ -39,5 +39,18 @@ class CartListController extends GetxController {
     _inProgress = false;
     update();
     return isSuccess;
+  }
+
+  void updateQuantity(int id, int quantity) {
+    _cartListModel.cartItemList?.firstWhere((element) => element.id == id).quantity = quantity;
+    _totalPrice.value = _calculateTotalPrice;
+  }
+
+  double get _calculateTotalPrice {
+    double total = 0;
+    for (CartItemModel item in _cartListModel.cartItemList ?? []) {
+      total += (double.tryParse(item.product?.price ?? '0') ?? 0) * item.quantity;
+    }
+    return total;
   }
 }

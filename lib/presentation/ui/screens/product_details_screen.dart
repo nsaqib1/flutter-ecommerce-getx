@@ -97,7 +97,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           ColorSelector(
             colors: product.color!.split(",").map((e) => ColorConverter.getColorFromName(e)).toList(),
             onChange: (color) {
-              _selectedColor = "#${color.toString().substring(10, 16)}";
+              _selectedColor = ColorConverter.getColorNameFromColor(color);
             },
           ),
           const SizedBox(height: 20),

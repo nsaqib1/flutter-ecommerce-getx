@@ -15,6 +15,19 @@ class ColorConverter {
     }
   }
 
+  static String getColorNameFromColor(Color color) {
+    if (color == Colors.red) {
+      return "Red";
+    }
+    if (color == Colors.green) {
+      return "Green";
+    }
+    if (color == Colors.black) {
+      return "White";
+    }
+    return "White";
+  }
+
   static Color getColorFromHex(String colorCode) {
     String code = colorCode.substring(1);
     final String hexCode = "FF$code";

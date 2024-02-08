@@ -89,7 +89,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   color: Colors.black87,
                 ),
               ),
-              const ItemCounter(),
+              ItemCounter(
+                onChange: (value) {},
+              ),
             ],
           ),
           const SizedBox(height: 10),

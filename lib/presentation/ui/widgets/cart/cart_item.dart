@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_getx/data/models/cart_item_model.dart';
+import 'package:flutter_ecommerce_getx/presentation/controllers/cart_list_controller.dart';
+import 'package:get/get.dart';
 
 import '../../utility/app_colors.dart';
-import '../../utility/assets_path.dart';
 import '../item_counter.dart';
 
 class CartItem extends StatelessWidget {
@@ -25,7 +26,7 @@ class CartItem extends StatelessWidget {
         children: [
           Flexible(
             flex: 10,
-            child: Image.asset(AssetsPath.dummyShoeImageJpg),
+            child: Image.network(cartItemModel.product!.image!),
           ),
           const SizedBox(width: 10),
           Flexible(
@@ -41,7 +42,7 @@ class CartItem extends StatelessWidget {
                         children: [
                           Text(
                             cartItemModel.product?.title ?? "",
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16,
                               color: Colors.black87,
                               fontWeight: FontWeight.w500,
@@ -50,8 +51,8 @@ class CartItem extends StatelessWidget {
                             maxLines: 1,
                           ),
                           Text(
-                            "Color: Red, Size: X",
-                            style: TextStyle(color: Colors.black54),
+                            "Color: ${cartItemModel.color}, Size: ${cartItemModel.size}",
+                            style: const TextStyle(color: Colors.black54),
                           ),
                         ],
                       ),
@@ -66,18 +67,22 @@ class CartItem extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 10),
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "\$100",
-                      style: TextStyle(
+                      "৳${cartItemModel.price}",
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                         color: AppColors.primaryColor,
                       ),
                     ),
-                    ItemCounter(),
+                    ItemCounter(
+                      onChange: (value) {
+                        Get.find<CartListController>().updateQuantity(cartItemModel.id ?? 0, value);
+                      },
+                    ),
                   ],
                 ),
                 const SizedBox(height: 10),

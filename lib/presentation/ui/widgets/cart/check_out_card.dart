@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ecommerce_getx/presentation/controllers/cart_list_controller.dart';
+import 'package:get/get.dart';
 
 import '../../utility/app_colors.dart';
 
@@ -32,12 +34,14 @@ class CheckOutCard extends StatelessWidget {
                   color: Colors.grey.shade700,
                 ),
               ),
-              const Text(
-                "\$100,000.00",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.primaryColor,
+              Obx(
+                () => Text(
+                  "\$${Get.find<CartListController>().totalPrice}",
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.primaryColor,
+                  ),
                 ),
               ),
             ],

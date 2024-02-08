@@ -5,7 +5,10 @@ import '../utility/app_colors.dart';
 class ItemCounter extends StatefulWidget {
   const ItemCounter({
     super.key,
+    required this.onChange,
   });
+
+  final Function(int value) onChange;
 
   @override
   State<ItemCounter> createState() => _ItemCounterState();
@@ -17,12 +20,14 @@ class _ItemCounterState extends State<ItemCounter> {
   void _increment() {
     if (_count.value < 20) {
       _count.value++;
+      widget.onChange(_count.value);
     }
   }
 
   void _decrement() {
     if (_count.value > 1) {
       _count.value--;
+      widget.onChange(_count.value);
     }
   }
 

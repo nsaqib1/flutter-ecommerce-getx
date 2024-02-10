@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_getx/data/models/cart_item_model.dart';
+import 'package:flutter_ecommerce_getx/presentation/controllers/auth_controller.dart';
 import 'package:flutter_ecommerce_getx/presentation/controllers/cart_list_controller.dart';
 import 'package:get/get.dart';
 
@@ -58,7 +59,12 @@ class CartItem extends StatelessWidget {
                       ),
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.find<CartListController>().deleteCartItem(
+                          cartItemModel.id ?? -1,
+                          Get.find<AuthController>().token ?? "",
+                        );
+                      },
                       icon: const Icon(
                         Icons.delete_outline,
                         color: Colors.black54,

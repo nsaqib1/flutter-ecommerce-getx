@@ -42,6 +42,25 @@ class CartListController extends GetxController {
     return isSuccess;
   }
 
+  Future<bool> deleteCartItem(int id, String token) async {
+    bool isSuccess = false;
+    _inProgress = true;
+    update();
+    final response = await NetworkCaller().getRequest(
+      Urls.deleteCartItem(id),
+      token: token,
+    );
+    if (response.isSuccess) {
+      _cartListModel.cartItemList?.removeWhere((element) => element.id == id);
+      isSuccess = true;
+    } else {
+      _errorMessage = response.errorMessage;
+    }
+    _inProgress = false;
+    update();
+    return isSuccess;
+  }
+
   void updateQuantity(int id, int quantity) {
     _cartListModel.cartItemList?.firstWhere((element) => element.id == id).qty = quantity.toString();
     _totalPrice.value = _calculateTotalPrice;
@@ -51,8 +70,6 @@ class CartListController extends GetxController {
     double total = 0;
     for (CartItemModel item in _cartListModel.cartItemList ?? []) {
       total += (double.tryParse(item.product?.price ?? '1') ?? 1) * (double.tryParse(item.qty ?? "1") ?? 1);
-      print(item.product!.stock!);
-      print(item.product!.price!);
     }
     _totalPrice.value = total;
     return total;

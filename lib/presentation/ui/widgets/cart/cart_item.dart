@@ -71,7 +71,7 @@ class CartItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "৳${cartItemModel.price}",
+                      "৳${cartItemModel.product?.price}",
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -82,6 +82,7 @@ class CartItem extends StatelessWidget {
                       onChange: (value) {
                         Get.find<CartListController>().updateQuantity(cartItemModel.id ?? 0, value);
                       },
+                      value: int.tryParse(cartItemModel.qty ?? "1") ?? 1,
                     ),
                   ],
                 ),

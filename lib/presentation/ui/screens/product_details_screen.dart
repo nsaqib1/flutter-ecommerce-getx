@@ -24,6 +24,7 @@ class ProductDetailsScreen extends StatefulWidget {
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   String? _selectedSize;
   String? _selectedColor;
+  int _qty = 1;
 
   @override
   void initState() {
@@ -90,7 +91,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 ),
               ),
               ItemCounter(
-                onChange: (value) {},
+                onChange: (value) {
+                  _qty = value;
+                },
+                value: _qty,
               ),
             ],
           ),
@@ -213,6 +217,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           productId: productId,
                           color: _selectedColor!,
                           size: _selectedSize!,
+                          qty: _qty,
                           token: token,
                         );
 

@@ -19,6 +19,7 @@ class AddToCartController extends GetxController {
     required int productId,
     required String color,
     required String size,
+    required int qty,
     required String token,
   }) async {
     bool isSuccess = false;
@@ -28,7 +29,7 @@ class AddToCartController extends GetxController {
       "product_id": productId,
       "color": color,
       "size": size,
-      "qty": 1,
+      "qty": qty,
     };
     final response = await NetworkCaller().postRequest(
       Urls.addToCart,

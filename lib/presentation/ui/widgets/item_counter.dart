@@ -6,16 +6,18 @@ class ItemCounter extends StatefulWidget {
   const ItemCounter({
     super.key,
     required this.onChange,
+    required this.value,
   });
 
   final Function(int value) onChange;
+  final int value;
 
   @override
   State<ItemCounter> createState() => _ItemCounterState();
 }
 
 class _ItemCounterState extends State<ItemCounter> {
-  final ValueNotifier<int> _count = ValueNotifier(1);
+  late final ValueNotifier<int> _count = ValueNotifier(widget.value);
 
   void _increment() {
     if (_count.value < 20) {

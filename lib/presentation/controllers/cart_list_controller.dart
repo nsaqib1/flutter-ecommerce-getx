@@ -43,14 +43,16 @@ class CartListController extends GetxController {
   }
 
   void updateQuantity(int id, int quantity) {
-    _cartListModel.cartItemList?.firstWhere((element) => element.id == id).product!.stock = quantity;
+    _cartListModel.cartItemList?.firstWhere((element) => element.id == id).qty = quantity.toString();
     _totalPrice.value = _calculateTotalPrice;
   }
 
   double get _calculateTotalPrice {
     double total = 0;
     for (CartItemModel item in _cartListModel.cartItemList ?? []) {
-      total += (double.tryParse(item.product?.price ?? '0') ?? 0) * item.product!.stock!;
+      total += (double.tryParse(item.product?.price ?? '1') ?? 1) * (double.tryParse(item.qty ?? "1") ?? 1);
+      print(item.product!.stock!);
+      print(item.product!.price!);
     }
     _totalPrice.value = total;
     return total;

@@ -19,14 +19,14 @@ class CompleteProfileController extends GetxController {
 
   ProfileModel get profile => _profile;
 
-  Future<bool> createProfile(String token, CreateProfileParams params) async {
+  Future<bool> createProfile(String token, CreateProfileParams model) async {
     _inProgress = true;
     update();
 
     final response = await NetworkCaller().postRequest(
       Urls.createProfile,
       token: token,
-      body: params.toJson(),
+      body: model.toJson(),
     );
     _inProgress = false;
 

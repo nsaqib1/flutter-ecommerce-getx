@@ -1,35 +1,73 @@
 class CreateProfileParams {
-  final String firstName;
-  final String lastName;
-  final String mobile;
-  final String city;
-  final String shippingAddress;
+  String? cusName;
+  String? cusAdd;
+  String? cusCity;
+  String? cusState;
+  String? cusPostcode;
+  String? cusCountry;
+  String? cusPhone;
+  String? cusFax;
+  String? shipName;
+  String? shipAdd;
+  String? shipCity;
+  String? shipState;
+  String? shipPostcode;
+  String? shipCountry;
+  String? shipPhone;
 
   CreateProfileParams({
-    required this.firstName,
-    required this.lastName,
-    required this.mobile,
-    required this.city,
-    required this.shippingAddress,
+    this.cusName,
+    this.cusAdd,
+    this.cusCity,
+    this.cusState,
+    this.cusPostcode,
+    this.cusCountry,
+    this.cusPhone,
+    this.cusFax,
+    this.shipName,
+    this.shipAdd,
+    this.shipCity,
+    this.shipState,
+    this.shipPostcode,
+    this.shipCountry,
+    this.shipPhone,
   });
 
+  CreateProfileParams.fromJson(Map<String, dynamic> json) {
+    cusName = json['cus_name'];
+    cusAdd = json['cus_add'];
+    cusCity = json['cus_city'];
+    cusState = json['cus_state'];
+    cusPostcode = json['cus_postcode'];
+    cusCountry = json['cus_country'];
+    cusPhone = json['cus_phone'];
+    cusFax = json['cus_fax'];
+    shipName = json['ship_name'];
+    shipAdd = json['ship_add'];
+    shipCity = json['ship_city'];
+    shipState = json['ship_state'];
+    shipPostcode = json['ship_postcode'];
+    shipCountry = json['ship_country'];
+    shipPhone = json['ship_phone'];
+  }
+
   Map<String, dynamic> toJson() {
-    return {
-      "cus_name": "$firstName $lastName",
-      "cus_add": shippingAddress,
-      "cus_city": city,
-      "cus_state": "Dhaka",
-      "cus_postcode": "1207",
-      "cus_country": "Bangladesh",
-      "cus_phone": "01785388919",
-      "cus_fax": "01785388919",
-      "ship_name": "$firstName $lastName",
-      "ship_add": shippingAddress,
-      "ship_city": "Dhaka",
-      "ship_state": "Dhaka",
-      "ship_postcode": "1207",
-      "ship_country": "Bangladesh",
-      "ship_phone": "01785388919"
-    };
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['cus_name'] = cusName;
+    data['cus_add'] = cusAdd;
+    data['cus_city'] = cusCity;
+    data['cus_state'] = cusState;
+    data['cus_postcode'] = cusPostcode;
+    data['cus_country'] = cusCountry;
+    data['cus_phone'] = cusPhone;
+    data['cus_fax'] = cusFax;
+    data['ship_name'] = shipName;
+    data['ship_add'] = shipAdd;
+    data['ship_city'] = shipCity;
+    data['ship_state'] = shipState;
+    data['ship_postcode'] = shipPostcode;
+    data['ship_country'] = shipCountry;
+    data['ship_phone'] = shipPhone;
+    return data;
   }
 }

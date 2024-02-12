@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_getx/data/models/product_model.dart';
-import 'package:flutter_ecommerce_getx/data/models/wish_list_model.dart';
 import 'package:flutter_ecommerce_getx/presentation/controllers/auth_controller.dart';
 import 'package:flutter_ecommerce_getx/presentation/controllers/wishlist_controller.dart';
 import 'package:get/get.dart';
@@ -64,7 +63,11 @@ class _WishListScreenState extends State<WishListScreen> {
                 ),
                 itemBuilder: (context, index) {
                   return FittedBox(
-                      child: ProductCardItem(product: wishListController.wishListModel.wishItemList![index].product ?? ProductModel(), isWishListed: true));
+                    child: ProductCardItem(
+                      product: wishListController.wishListModel.wishItemList![index].product ?? ProductModel(),
+                      isWishListed: true,
+                    ),
+                  );
                 },
               ),
             );

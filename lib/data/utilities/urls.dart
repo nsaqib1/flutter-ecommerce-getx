@@ -22,4 +22,5 @@ class Urls {
   static String wishList = '$_baseUrl/ProductWishList';
   static String removeFromWishList(int id) => '$_baseUrl/RemoveWishList/$id';
   static String createInvoice = '$_baseUrl/InvoiceCreate';
+  static String reviewList(int id) => '$_baseUrl/ListReviewByProduct/$id';
 }

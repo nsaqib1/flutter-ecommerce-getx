@@ -5,6 +5,7 @@ import 'package:flutter_ecommerce_getx/presentation/controllers/auth_controller.
 import 'package:flutter_ecommerce_getx/presentation/controllers/product_details_controller.dart';
 import 'package:flutter_ecommerce_getx/presentation/controllers/wishlist_controller.dart';
 import 'package:flutter_ecommerce_getx/presentation/ui/screens/auth/verify_email_screen.dart';
+import 'package:flutter_ecommerce_getx/presentation/ui/screens/review_screen.dart';
 import 'package:flutter_ecommerce_getx/presentation/ui/utility/app_colors.dart';
 import 'package:flutter_ecommerce_getx/presentation/ui/utility/color_converter.dart';
 import 'package:flutter_ecommerce_getx/presentation/ui/widgets/item_counter.dart';
@@ -198,7 +199,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           Text(star.toStringAsFixed(1)),
           const SizedBox(width: 8),
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              Get.to(ReviewScreen(
+                productId: widget.productId,
+              ));
+            },
             child: const Text("Reviews"),
           ),
           const SizedBox(width: 8),

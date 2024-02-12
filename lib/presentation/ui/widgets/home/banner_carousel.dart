@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_getx/data/models/banner_item_model.dart';
+import 'package:flutter_ecommerce_getx/presentation/ui/screens/product_details_screen.dart';
+import 'package:get/get.dart';
 
 import '../../utility/app_colors.dart';
 
@@ -46,40 +48,42 @@ class _BannerCarouselState extends State<BannerCarousel> {
                     decoration: BoxDecoration(
                       color: AppColors.primaryColor,
                       borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Image.network(i.image ?? ""),
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(
+                          i.image ?? '',
                         ),
-                        SizedBox(width: 10),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                i.title ?? "",
-                                style: const TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              SizedBox(height: 10),
-                              ElevatedButton(
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.white,
-                                  foregroundColor: AppColors.primaryColor,
-                                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                                  elevation: 0,
-                                ),
-                                child: Text("Buy Now"),
-                              )
-                            ],
+                      ),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          i.title ?? "",
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
+                        const SizedBox(height: 10),
+                        ElevatedButton(
+                          onPressed: () {
+                            Get.to(
+                              ProductDetailsScreen(
+                                productId: i.productId ?? 1,
+                                isWishListed: false,
+                              ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primaryColor,
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                            elevation: 0,
+                          ),
+                          child: const Text("Buy Now"),
+                        )
                       ],
                     ),
                   );

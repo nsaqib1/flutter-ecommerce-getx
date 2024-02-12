@@ -33,7 +33,7 @@ class CategoryItem extends StatelessWidget {
               padding: const EdgeInsets.all(20.0),
               child: Image.network(
                 category.categoryImg ?? '',
-                width: 40,
+                width: 50,
                 height: 40,
               ),
             ),

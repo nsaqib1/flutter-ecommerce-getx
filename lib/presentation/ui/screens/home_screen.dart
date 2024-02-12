@@ -122,14 +122,11 @@ class _HomeScreenState extends State<HomeScreen> {
           replacement: const Center(
             child: CircularProgressIndicator(),
           ),
-          child: GridView.builder(
+          child: ListView.builder(
             padding: const EdgeInsets.symmetric(vertical: 20),
             physics: const BouncingScrollPhysics(),
+            scrollDirection: Axis.horizontal,
             itemCount: categoryController.categoryListModel.categoryList?.length ?? 0,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 4,
-              childAspectRatio: 0.85,
-            ),
             itemBuilder: (context, index) {
               return FittedBox(
                 child: CategoryItem(

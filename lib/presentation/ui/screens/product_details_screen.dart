@@ -3,6 +3,7 @@ import 'package:flutter_ecommerce_getx/data/models/product_details_data.dart';
 import 'package:flutter_ecommerce_getx/presentation/controllers/add_to_cart_controller.dart';
 import 'package:flutter_ecommerce_getx/presentation/controllers/auth_controller.dart';
 import 'package:flutter_ecommerce_getx/presentation/controllers/product_details_controller.dart';
+import 'package:flutter_ecommerce_getx/presentation/controllers/wishlist_controller.dart';
 import 'package:flutter_ecommerce_getx/presentation/ui/screens/auth/verify_email_screen.dart';
 import 'package:flutter_ecommerce_getx/presentation/ui/utility/app_colors.dart';
 import 'package:flutter_ecommerce_getx/presentation/ui/utility/color_converter.dart';
@@ -13,9 +14,10 @@ import 'package:flutter_ecommerce_getx/presentation/ui/widgets/product_details/s
 import 'package:get/get.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
-  const ProductDetailsScreen({super.key, required this.productId});
+  const ProductDetailsScreen({super.key, required this.productId, required this.isWishListed});
 
   final int productId;
+  final bool isWishListed;
 
   @override
   State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
@@ -26,10 +28,78 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   String? _selectedColor;
   int _qty = 1;
 
+  late bool isWishListed;
+
   @override
   void initState() {
     super.initState();
+    isWishListed = widget.isWishListed;
     Get.find<ProductDetailsController>().getProductDetails(widget.productId);
+  }
+
+  _addToWishList() async {
+    final wishListController = Get.find<WishListController>();
+    final result = await wishListController.addWishListtItem(
+      widget.productId,
+      Get.find<AuthController>().token ?? "",
+    );
+
+    if (result) {
+      isWishListed = true;
+      setState(() {});
+      Get.snackbar(
+        "Success",
+        "Product added to Wish List!",
+        duration: const Duration(seconds: 3),
+        backgroundColor: Colors.green,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } else {
+      if (wishListController.statusCode == 401) {
+        Get.offAll(const VerifyEmailScreen());
+      } else {
+        Get.snackbar(
+          "Product add to Wish List failed!",
+          wishListController.errorMessage,
+          duration: const Duration(seconds: 3),
+          backgroundColor: Colors.red,
+          snackPosition: SnackPosition.BOTTOM,
+        );
+      }
+    }
+  }
+
+  _removeFromWishList() async {
+    final wishListController = Get.find<WishListController>();
+    final result = await wishListController.deleteWishListtItem(
+      widget.productId,
+      Get.find<AuthController>().token ?? "",
+    );
+
+    if (result) {
+      isWishListed = false;
+      setState(() {});
+
+      Get.snackbar(
+        "Success",
+        "Product deleted from Wish List!",
+        duration: const Duration(seconds: 3),
+        backgroundColor: Colors.green,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } else {
+      if (wishListController.statusCode == 401) {
+        Get.offAll(const VerifyEmailScreen());
+      } else {
+        Get.snackbar(
+          "Product delete failed!",
+          wishListController.errorMessage,
+          duration: const Duration(seconds: 3),
+          backgroundColor: Colors.red,
+          snackPosition: SnackPosition.BOTTOM,
+        );
+      }
+    }
   }
 
   @override
@@ -132,17 +202,31 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             child: const Text("Reviews"),
           ),
           const SizedBox(width: 8),
-          Card(
-            color: AppColors.primaryColor,
-            child: Padding(
-              padding: const EdgeInsets.all(2),
-              child: Icon(
-                Icons.favorite_border,
-                size: 18,
-                color: Colors.grey.shade300,
+          GetBuilder<WishListController>(builder: (wishListController) {
+            return InkWell(
+              onTap: wishListController.inProgress
+                  ? null
+                  : isWishListed
+                      ? _removeFromWishList
+                      : _addToWishList,
+              child: Card(
+                color: wishListController.inProgress
+                    ? Colors.grey
+                    : isWishListed
+                        ? Colors.red
+                        : AppColors.primaryColor,
+                elevation: 0,
+                child: Padding(
+                  padding: const EdgeInsets.all(4),
+                  child: Icon(
+                    Icons.favorite_border,
+                    size: 18,
+                    color: Colors.grey.shade300,
+                  ),
+                ),
               ),
-            ),
-          )
+            );
+          })
         ],
       );
 

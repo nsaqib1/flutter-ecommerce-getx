@@ -10,6 +10,7 @@ import 'package:flutter_ecommerce_getx/presentation/controllers/popular_product_
 import 'package:flutter_ecommerce_getx/presentation/controllers/product_controller.dart';
 import 'package:flutter_ecommerce_getx/presentation/controllers/product_details_controller.dart';
 import 'package:flutter_ecommerce_getx/presentation/controllers/special_product_controller.dart';
+import 'package:flutter_ecommerce_getx/presentation/controllers/wishlist_controller.dart';
 import 'package:get/get.dart';
 import 'presentation/controllers/main_bottom_nav_controller.dart';
 import 'presentation/controllers/otp_timer_countdown_controller.dart';
@@ -37,5 +38,6 @@ class ControllerBinder extends Bindings {
     Get.put(AddToCartController());
     Get.put(CartListController());
     Get.put(CreateInvoiceController());
+    Get.put(WishListController());
   }
 }

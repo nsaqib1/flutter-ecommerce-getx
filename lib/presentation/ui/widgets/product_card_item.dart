@@ -9,9 +9,11 @@ class ProductCardItem extends StatelessWidget {
   const ProductCardItem({
     super.key,
     required this.product,
+    this.isWishListed = false,
   });
 
   final ProductModel product;
+  final bool isWishListed;
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +21,7 @@ class ProductCardItem extends StatelessWidget {
       onTap: () {
         Get.to(ProductDetailsScreen(
           productId: product.id!,
+          isWishListed: isWishListed,
         ));
       },
       borderRadius: BorderRadius.circular(16),

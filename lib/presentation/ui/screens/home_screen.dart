@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_getx/data/models/product_model.dart';
-import 'package:flutter_ecommerce_getx/presentation/controllers/auth_controller.dart';
 import 'package:flutter_ecommerce_getx/presentation/controllers/home_banner_controller.dart';
 import 'package:flutter_ecommerce_getx/presentation/controllers/new_product_controller.dart';
 import 'package:flutter_ecommerce_getx/presentation/controllers/popular_product_controller.dart';
 import 'package:flutter_ecommerce_getx/presentation/controllers/special_product_controller.dart';
-import 'package:flutter_ecommerce_getx/presentation/ui/screens/auth/verify_email_screen.dart';
 import 'package:flutter_ecommerce_getx/presentation/ui/screens/product_list_screen.dart';
+import 'package:flutter_ecommerce_getx/presentation/ui/screens/profile_view_screen.dart';
 import 'package:get/get.dart';
 
 import '../../../data/models/category_list_item.dart';
@@ -189,8 +188,7 @@ class _HomeScreenState extends State<HomeScreen> {
       actions: [
         CircleIconButton(
           onTap: () async {
-            await Get.find<AuthController>().clearAuthData();
-            Get.offAll(const VerifyEmailScreen());
+            Get.to(const ProfileViewScreen());
           },
           iconData: Icons.person,
         ),

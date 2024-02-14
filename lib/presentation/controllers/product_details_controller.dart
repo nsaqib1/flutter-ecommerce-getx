@@ -21,9 +21,8 @@ class ProductDetailsController extends GetxController {
     update();
 
     final ResponseData response = await NetworkCaller().getRequest(Urls.productDetails(productId));
-    if (response.isSuccess) {
+    if (response.isSuccess && response.responseData["data"].length > 0) {
       _productDetailsModel = ProductDetailsModel.fromJson(response.responseData);
-      result = true;
     } else {
       _errorMessage = response.errorMessage;
     }

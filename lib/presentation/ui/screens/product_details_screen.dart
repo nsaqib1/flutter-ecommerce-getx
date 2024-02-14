@@ -35,7 +35,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   void initState() {
     super.initState();
     isWishListed = widget.isWishListed;
-    Get.find<ProductDetailsController>().getProductDetails(widget.productId);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Get.find<ProductDetailsController>().getProductDetails(widget.productId);
+    });
   }
 
   _addToWishList() async {
@@ -111,37 +113,39 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         elevation: 0,
       ),
       body: GetBuilder<ProductDetailsController>(builder: (controller) {
-        final List<String> images = [
-          controller.productDetailsData.img1 ?? "",
-          controller.productDetailsData.img2 ?? "",
-          controller.productDetailsData.img3 ?? "",
-          controller.productDetailsData.img4 ?? "",
-        ];
-
         if (controller.inProgress) {
           return const Center(
             child: CircularProgressIndicator(),
           );
         }
 
-        return Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                child: Column(
-                  children: [
-                    ProductImageCarousel(images: images),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                      child: productDetailsBody(controller.productDetailsData),
-                    ),
-                  ],
+        return Visibility(
+          visible: controller.productDetailsData.img1 != null,
+          replacement: Text("data"),
+          child: Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Column(
+                    children: [
+                      ProductImageCarousel(images: [
+                        controller.productDetailsData.img1 ?? "",
+                        controller.productDetailsData.img2 ?? "",
+                        controller.productDetailsData.img3 ?? "",
+                        controller.productDetailsData.img4 ?? "",
+                      ]),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                        child: productDetailsBody(controller.productDetailsData),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            productPriceCard(widget.productId),
-          ],
+              productPriceCard(widget.productId),
+            ],
+          ),
         );
       }),
     );

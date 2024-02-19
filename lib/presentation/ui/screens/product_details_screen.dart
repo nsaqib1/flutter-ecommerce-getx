@@ -119,33 +119,41 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           );
         }
 
-        return Visibility(
-          visible: controller.productDetailsData.img1 != null,
-          replacement: Text("data"),
-          child: Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: Column(
-                    children: [
-                      ProductImageCarousel(images: [
-                        controller.productDetailsData.img1 ?? "",
-                        controller.productDetailsData.img2 ?? "",
-                        controller.productDetailsData.img3 ?? "",
-                        controller.productDetailsData.img4 ?? "",
-                      ]),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                        child: productDetailsBody(controller.productDetailsData),
-                      ),
-                    ],
-                  ),
+        if (controller.productDetailsData.product == null) {
+          return const Center(
+            child: Text(
+              "Server returned an empty data set!\n click on another product",
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.red,
+              ),
+            ),
+          );
+        }
+
+        return Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Column(
+                  children: [
+                    ProductImageCarousel(images: [
+                      controller.productDetailsData.img1 ?? "",
+                      controller.productDetailsData.img2 ?? "",
+                      controller.productDetailsData.img3 ?? "",
+                      controller.productDetailsData.img4 ?? "",
+                    ]),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                      child: productDetailsBody(controller.productDetailsData),
+                    ),
+                  ],
                 ),
               ),
-              productPriceCard(widget.productId),
-            ],
-          ),
+            ),
+            productPriceCard(widget.productId),
+          ],
         );
       }),
     );
